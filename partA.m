@@ -16,16 +16,17 @@ hold on;
 zero_height = ones(19, 1) * 559.2 / 1000;
 x = zero_height - x;
 g = 9.80665;
-e = errorbar(x, mass * g, x_error, x_error, mass_error * g, mass_error * g, '.');
-f = fit(x, mass * g, 'poly1');
+e = errorbar(mass, x, mass_error, mass_error, x_error, x_error, '.');
+f = fit(mass, x, 'poly1');
 plot(f, "-")
-title("Spring's length as a function of mass")
-xlabel("mass [kg]")
-ylabel("length [m]")
+title("Spring's length as a function of mass", 'FontSize', 14)
+xlabel("Mass [kg]", 'FontSize', 14)
+ylabel("Length [m]", 'FontSize', 14)
+legend('Data', 'Fit', 'FontSize', 14)
 e.CapSize = 0;
 k = 6.938;
-theo_force = f(x);
-rsquare = (mass * g - theo_force).^2;
-xhisquare_force = sum(rsquare ./ ((k*x_error).^2 + (mass_error * g).^2)) / 17;
+theo_x = f(mass);
+rsquare = (x - theo_x).^2;
+xhisquare_force = sum(rsquare ./ ((x_error).^2 + (mass_error * g / k).^2)) / 17;
 
 omega0 = sqrt((ones(19, 1)*k) ./ mass);
