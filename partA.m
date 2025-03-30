@@ -23,7 +23,6 @@ f = fit(x, mass * g, 'poly1');
 k = 6.938;
 theo_force = f(x);
 rsquare = (mass * g - theo_force).^2;
-xhisquare = sum(rsquare ./ ((k*x_error).^2 + (mass_error * g).^2)) / 17;
+xhisquare_force = sum(rsquare ./ ((k*x_error).^2 + (mass_error * g).^2)) / 17;
 
 omega0 = sqrt((ones(19, 1)*k) ./ mass);
-figure; scatter(mass, omega0);
