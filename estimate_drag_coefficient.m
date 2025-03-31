@@ -1,7 +1,7 @@
 function c = estimate_drag_coefficient(time, y, m, k)
     % Given time series data for y, estimate the drag coefficient c.
 
-    g = 9.81;  % Gravity (m/s^2)
+    g = 9.80665;  % Gravity (m/s^2)
     y0 = mean(y);  % Approximate equilibrium position
     
     dt = diff(time);  % Time step differences
@@ -20,6 +20,4 @@ function c = estimate_drag_coefficient(time, y, m, k)
     
     % Average the drag coefficient over all valid data points
     c = mean(c_values);
-    
-    fprintf('Estimated drag coefficient: %.5f\n', c);
 end
