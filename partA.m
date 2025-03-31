@@ -36,7 +36,7 @@ ylabel("Length [m]", 'FontSize', 14);
 
 k=6.938;
 omega0 = sqrt((ones(19, 1)*k) ./ mass);
-figure; scatter(mass, omega0);
+figure; plot(mass, omega0,'o');
 title("w_0 as a function of mass", 'FontSize', 14)
 xlabel("Mass [kg]", 'FontSize', 14)
 ylabel("w_0 [1/s]", 'FontSize', 14)
