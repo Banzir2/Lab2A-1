@@ -28,7 +28,7 @@ tau_winged_err = [0.0011452097308470833 0.0017654120471718104, ...
 omega_winged = [12.8 11.5 10.5, ...
     9.79 9.14 8.65 8.23 7.85 7.54].';
 
-theo_winged_omega = sqrt(omega.^2 - 1./tau_winged.^2);
+theo_winged_omega = sqrt(omega0.^2 - 1./tau_winged.^2);
 
 figure; hold on;
 e = errorbar(mass, tau, tau_err, tau_err, mass_error, mass_error, 'o');
@@ -36,24 +36,29 @@ e.CapSize = 0;
 xlabel('Mass [kg]', 'FontSize', 14);
 ylabel('Tau [sec]', 'FontSize', 14);
 title('Regression Rate by Mass', 'FontSize', 14);
+
 figure; hold on;
 e = errorbar(mass, omega, omega_err, omega_err, mass_error, mass_error, 'o');
 e.CapSize = 0;
-f = fit(mass, omega, 'a*(1/x^0.5)');
+f = fit(mass, omega, 'a*(1/x^b)');
 plot(f);
 xlabel('Mass [kg]', 'FontSize', 14);
 ylabel('Omega [sec^-^1]', 'FontSize', 14);
 title('Angular Frequency by Mass', 'FontSize', 14);
 legend('Data', 'Fit', 'FontSize', 14);
+
 figure; hold on;
 e = errorbar(mass, tau_winged, tau_winged_err, tau_winged_err, mass_error, mass_error, 'o');
 e.CapSize = 0;
 xlabel('Mass [kg]', 'FontSize', 14);
 ylabel('Tau [sec]', 'FontSize', 14);
 title('Winged Regression Rate by Mass', 'FontSize', 14);
+
 figure; hold on;
 e = errorbar(mass, omega_winged, omega_err, omega_err, mass_error, mass_error, 'o');
+scatter(mass, theo_winged_omega);
 e.CapSize = 0;
 xlabel('Mass [kg]', 'FontSize', 14);
 ylabel('Omega [sec^-^1]', 'FontSize', 14);
 title('Winged Angular Frequency by Mass', 'FontSize', 14);
+legend('Measured Omega', 'Theoretical Omega');
