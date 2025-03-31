@@ -16,7 +16,7 @@ hold on;
 zero_height = ones(19, 1) * 559.2 / 1000;
 x = zero_height - x;
 g = 9.80665;
-e = errorbar(mass, x, mass_error, mass_error, x_error, x_error, '.');
+e = errorbar(mass, x, mass_error, mass_error, x_error, x_error, 'o');
 f = fit(mass, x, 'poly1');
 plot(f, "-")
 title("Spring's length as a function of mass", 'FontSize', 14)
