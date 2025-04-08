@@ -69,3 +69,32 @@ scatter(w_90, r0);
 title("Residuals Graph", 'FontSize', 14);
 xlabel("w_d [rad/sec]", 'FontSize', 14);
 ylabel("Length [m]", 'FontSize', 14);
+
+m=[0.04769, 0.0676, 0.09797, 0.1178];
+m_error=[0.01,0.03,0.04,0.05];
+w_r_error=[0.013855857, 0.010604751, 0.0064, 0.004282679];
+w_r=[11.48990287, 9.791696586, 8.2384, 7.555307712];
+% Plot
+figure; hold on;
+e = errorbar(m, w_r, m_error, w_r_error, 'o');
+e.CapSize = 0;
+% Fit
+fitmodel = fittype('sqrt(a + b / x)', 'independent', 'x', 'coefficients', {'a', 'b'});
+f = fit(m.', w_r.', fitmodel);
+
+% Plot fit
+plot(f);
+xlabel('mass [kg]', 'FontSize', 14);
+ylabel('w_r [rad/sec]', 'FontSize', 14);
+title('resonance by mass', 'FontSize', 14);
+legend('Data', 'Fit', 'FontSize', 14);
+
+m = m(:);
+w_r = w_r(:);
+m_error = m_error(:);
+w_r_error = w_r_error(:);
+% Calculate residuals and chi-squared
+theo_amp = f(m);             % this is now column vector
+r0 = w_r - theo_amp;           % column
+sigma2 = m_error.^2 + (1.413^2) * w_r_error.^2 + (4e-4)^2;  % column
+xhisquare_force1 = sum((r0.^2) ./ sigma2) / 2;
