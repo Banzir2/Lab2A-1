@@ -31,19 +31,28 @@ omega_winged = [12.8 11.5 10.5, ...
 theo_winged_omega = sqrt(omega0.^2 - 1./tau_winged.^2);
 
 figure; hold on;
-e = errorbar(mass, tau, tau_err, tau_err, mass_error, mass_error, 'o');
+e = errorbar(mass, tau, tau_err, tau_err, mass_error, mass_error, 'o', 'MarkerSize', 10);
 e.CapSize = 0;
+f = fit(mass, tau, 'poly1');
+plot(f);
+xhisquare = sum(((f(mass) - tau).^2) ./ (tau_err.^2)) / (9 - 2);
 xlabel('Mass [kg]', 'FontSize', 14);
 ylabel('Tau [sec]', 'FontSize', 14);
 title('Regression Rate by Mass', 'FontSize', 14);
+legend('Data', 'Fit', 'FontSize', 14);
+
+figure; scatter(mass, f(mass) - tau, '.', 'SizeData', 600);
+xlabel('Mass [kg]', 'FontSize', 14);
+ylabel('Tau [sec]', 'FontSize', 14);
+title('Tau Residuals by Mass', 'FontSize', 14);
 
 figure; hold on;
-e = errorbar(mass, omega, omega_err, omega_err, mass_error, mass_error, 'o');
+e = errorbar(mass, omega, omega_err, omega_err, mass_error, mass_error, 'o', 'MarkerSize', 10);
 e.CapSize = 0;
 f = fit(mass, omega, 'a*(1/x^b)');
 plot(f);
 xlabel('Mass [kg]', 'FontSize', 14);
-ylabel('Omega [sec^-^1]', 'FontSize', 14);
+ylabel('Omega [rad/sec]', 'FontSize', 14);
 title('Angular Frequency by Mass', 'FontSize', 14);
 legend('Data', 'Fit', 'FontSize', 14);
 theo_omega = f(mass);
