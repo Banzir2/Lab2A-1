@@ -1,3 +1,6 @@
+clear;
+close all;
+
 % Load data
 data = readmatrix('Capstone_Data.csv');
 nRuns = size(data, 2) / 2;
@@ -63,7 +66,7 @@ disp('Coefficients [a, w, b] for each run:');
 disp(coefficients);
 
 % Extract a and w from coefficients matrix
-a_values = coefficients(:, 1);
+a_values = abs(coefficients(:, 1));
 w_values = coefficients(:, 2);
 
 % Remove any rows where the fit failed (i.e., zeros)
@@ -73,9 +76,9 @@ w_values = w_values(valid);
 
 % Plot: only points, no connecting lines, smaller markers
 figure;
-plot(w_values, a_values, 'o', 'MarkerSize', 4, 'LineWidth', 1);
-xlabel('\omega [rad/s]', 'FontSize', 14);
-ylabel('Amplitude [m]', 'FontSize', 14);
+plot(w_values, a_values, '.', 'MarkerSize', 30, 'LineWidth', 1);
+xlabel('\omega [rad/s]', 'FontSize', 16);
+ylabel('Amplitude [m]', 'FontSize', 16);
 title('Amplitude vs Angular Frequency (a vs \omega)', 'FontSize', 16);
 grid on;
 hold on;
@@ -89,14 +92,18 @@ m2 = 50.37/ 1000;   % mass 2
 F0 = 1;     % driving force amplitude
 
 % Define theoretical A_2(w) function
-A2_model = @(w) abs((F0 .* k2) ./ ((k1 + k2 - m1*w.^2) .* (k2 - m2*w.^2) - k2.^2));
+A2_model = @(w) ((F0 .* k2) ./ ((k1 + k2 - m1*w.^2) .* (k2 - m2*w.^2) - k2.^2));
+A1_model = @(w) F0*((k2 - m2*w.^2)./((k1 + k2 - m1*w.^2).*(k2 - m2*w.^2) - k2^2));
 
 % --- Evaluate and plot the curve ---
-w_plot = linspace(min(w_values), max(w_values), 500);
-a_theory = A2_model(w_plot);
+w_plot = linspace(0, 40, 500);
+a_theory = abs(A2_model(w_plot) + A1_model(w_plot));
+
+
+f = fit(w_values, a_values, 'abs((a * 7.1037) / ((6.983 + 7.1037 - (19.99/1000)*x^2) * (6.983 - (50.37/1000)*x^2) - 7.1037^2) + a*((7.1037 - (50.37/1000)*x^2)/((6.983 + 7.1037 - (19.99/1000)*x^2)*(7.1037 - (50.37/1000)*x^2) - 7.1037^2)))');
 
 % Plot the curve on the same graph
 hold on;
 plot(w_plot, a_theory, 'r-', 'LineWidth', 2, 'DisplayName', 'Theoretical A_2(\omega)');
-legend('show');
+legend('Data', 'Theory', 'FontSize', 14);
 
