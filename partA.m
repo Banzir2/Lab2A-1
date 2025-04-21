@@ -16,7 +16,7 @@ hold on;
 zero_height = ones(19, 1) * 559.2 / 1000;
 x = zero_height - x;
 g = 9.80665;
-e = errorbar(mass, x, mass_error, mass_error, x_error, x_error, 'o');
+e = errorbar(mass, x, mass_error, mass_error, x_error, x_error, 'o', 'MarkerSize', 10);
 f = fit(mass, x, 'poly1');
 plot(f, "-")
 title("Spring's length as a function of mass", 'FontSize', 14)
@@ -29,14 +29,14 @@ r = x - theo_x;
 xhisquare_force = sum(r.^2 ./ ((x_error).^2 + (mass_error * 1.413).^2 + (4e-4)^2)) / 17;
 
 figure; 
-scatter(mass, r);
+scatter(mass, r, '.', 'SizeData', 600);
 title("Residuals Graph", 'FontSize', 14);
 xlabel("Mass [kg]", 'FontSize', 14);
 ylabel("Length [m]", 'FontSize', 14);
 
 k=6.938;
 omega0 = sqrt((ones(19, 1)*k) ./ mass);
-figure; plot(mass, omega0,'o');
+figure; scatter(mass, omega0, '.', 'SizeData', 600);
 title("w_0 as a function of mass", 'FontSize', 14)
 xlabel("Mass [kg]", 'FontSize', 14)
-ylabel("w_0 [1/s]", 'FontSize', 14)
+ylabel("w_0 [rad/s]", 'FontSize', 14)

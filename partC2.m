@@ -1,0 +1,46 @@
+close all;
+clear;
+
+data = readmatrix("Capstone Data C.csv");
+t1 = data(:, 34); t1 = t1(~isnan(t1)); t1 = t1(385:end);
+x1 = data(:, 35); x1 = x1(~isnan(x1)); x1 = x1(385:end);
+t2 = data(:, 36); t2 = t2(~isnan(t2)); t2 = t2(269:end);
+x2 = data(:, 37); x2 = x2(~isnan(x2)); x2 = x2(269:end);
+t3 = data(:, 38); t3 = t3(~isnan(t3)); t3 = t3(280:end);
+x3 = data(:, 39); x3 = x3(~isnan(x3)); x3 = x3(280:end);
+
+figure; scatter(t1, x1, '.');
+title('90 grams random start point', 'FontSize', 14);
+xlabel('Time [sec]', 'FontSize', 14);
+ylabel('Displacement [m]', 'FontSize', 14);
+figure; scatter(t2, x2, '.');
+title('90 grams random start point', 'FontSize', 14);
+xlabel('Time [sec]', 'FontSize', 14);
+ylabel('Displacement [m]', 'FontSize', 14);
+figure; scatter(t3, x3, '.');
+title('90 grams random start point', 'FontSize', 14);
+xlabel('Time [sec]', 'FontSize', 14);
+ylabel('Displacement [m]', 'FontSize', 14);
+
+[peaks1, loc1] = findpeaks(x1, t1); loc1 = loc1 - ones(89,1) * 4.22;
+[peaks2, loc2] = findpeaks(x2, t2); loc2 = loc2 - ones(49, 1) * 3.05; 
+[peaks3, loc3] = findpeaks(x3, t3); loc3 = loc3 - ones(63, 1) * 3.17;
+figure; scatter(loc1, peaks1); hold on;
+start_point = [45.63, 0.1938, 0.2595, 457.5];
+f1 = fit(loc1, peaks1, '(a*(exp(-b*x)))*cos(c*x)+d', 'Exclude', peaks1 < 440, 'StartPoint', start_point);
+plot(f1);
+title('90 grams random start point peaks', 'FontSize', 14);
+xlabel('Time [sec]', 'FontSize', 14);
+ylabel('Displacement [m]', 'FontSize', 14);
+figure; scatter(loc2, peaks2); hold on;
+f2 = fit(loc2, peaks2, '(a*(exp(-b*x)))*cos(c*x)+d', 'Exclude', peaks2 < 450, 'StartPoint', start);
+plot(f2);
+title('90 grams random start point peaks', 'FontSize', 14);
+xlabel('Time [sec]', 'FontSize', 14);
+ylabel('Displacement [m]', 'FontSize', 14);
+figure; scatter(loc3, peaks3); hold on;
+f3 = fit(loc3, peaks3, '(a*(exp(-b*x)))*cos(c*x)+d', 'Exclude', peaks3 < 440, 'StartPoint', start_point);
+plot(f3);
+title('90 grams random start point peaks', 'FontSize', 14);
+xlabel('Time [sec]', 'FontSize', 14);
+ylabel('Displacement [m]', 'FontSize', 14);
